@@ -15,9 +15,8 @@ defmodule Penrose.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: Penrose.PubSub},
       # Start the Endpoint (http/https)
-      PenroseWeb.Endpoint
-      # Start a worker by calling: Penrose.Worker.start_link(arg)
-      # {Penrose.Worker, arg}
+      PenroseWeb.Endpoint,
+      Penrose.CreditFraudServer
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
