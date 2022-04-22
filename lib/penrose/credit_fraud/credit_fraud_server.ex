@@ -70,7 +70,7 @@ defmodule Penrose.CreditFraudServer do
                   |> Axon.Loop.trainer(loss, optimizer)
                   |> Axon.Loop.metric(:precision)
                   |> Axon.Loop.metric(:recall)
-                  |> Axon.Loop.run(training_data, epochs: 30)
+                  |> Axon.Loop.run(training_data, epochs: 30, compiler: EXLA)
 
 
 
