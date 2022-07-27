@@ -55,24 +55,28 @@ defmodule Penrose.CreditFraudServer do
   end
 
   def train_model(model, training_data, y_train) do
-    fraud = Nx.sum(y_train)
-            |> Nx.to_number()
+    fraud =
+      Nx.sum(y_train)
+      |> Nx.to_number()
+
     legit = Nx.size(y_train) - fraud
-    loss = &Axon.Losses.binary_cross_entropy(
-      &1,
-      &2,
-      negative_weight: 1 / legit,
-      positive_weight: 1 / fraud,
-      reduction: :mean
-    )
+
+    loss =
+      &Axon.Losses.binary_cross_entropy(
+        &1,
+        &2,
+        negative_weight: 1 / legit,
+        positive_weight: 1 / fraud,
+        reduction: :mean
+      )
+
     optimizer = Axon.Optimizers.adam(0.01)
-    model_state = model
-                  |> Axon.Loop.trainer(loss, optimizer)
-                  |> Axon.Loop.metric(:precision)
-                  |> Axon.Loop.metric(:recall)
-                  |> Axon.Loop.run(training_data, epochs: 30, compiler: EXLA)
 
-
-
+    model_state =
+      model
+      |> Axon.Loop.trainer(loss, optimizer)
+      |> Axon.Loop.metric(:precision)
+      |> Axon.Loop.metric(:recall)
+      |> Axon.Loop.run(training_data, epochs: 30, compiler: EXLA)
   end
 end
