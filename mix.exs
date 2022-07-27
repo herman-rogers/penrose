@@ -4,10 +4,8 @@ defmodule Penrose.MixProject do
   def project do
     [
       app: :penrose,
-      version: "0.1.0",
-      elixir: "~> 1.12",
-      elixirc_paths: elixirc_paths(Mix.env()),
-      compilers: [:gettext] ++ Mix.compilers(),
+      version: "0.2.0",
+      elixir: "~> 1.13",
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
       deps: deps()
@@ -19,14 +17,9 @@ defmodule Penrose.MixProject do
   # Type `mix help compile.app` for more information.
   def application do
     [
-      mod: {Penrose.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger]
     ]
   end
-
-  # Specifies which paths to compile per environment.
-  defp elixirc_paths(:test), do: ["lib", "test/support"]
-  defp elixirc_paths(_), do: ["lib"]
 
   # Specifies your project dependencies.
   #

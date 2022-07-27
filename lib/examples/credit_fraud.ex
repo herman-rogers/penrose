@@ -1,12 +1,7 @@
-defmodule Penrose.CreditFraudServer do
-  use GenServer
+defmodule Penrose.Examples.CreditFraud do
   alias Penrose.DataTools
 
-  def start_link(opts) do
-    GenServer.start_link(__MODULE__, opts, name: :credit_fraud)
-  end
-
-  def init(_options) do
+  def start() do
     fraud_df = Explorer.DataFrame.read_csv!("./data/creditcard.csv", dtypes: [{"Time", :float}])
 
     example_size = Explorer.DataFrame.n_rows(fraud_df)
@@ -78,5 +73,7 @@ defmodule Penrose.CreditFraudServer do
       |> Axon.Loop.metric(:precision)
       |> Axon.Loop.metric(:recall)
       |> Axon.Loop.run(training_data, epochs: 30, compiler: EXLA)
+
+    IO.inspect(model_state)
   end
 end
