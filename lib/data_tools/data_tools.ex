@@ -8,4 +8,8 @@ defmodule Penrose.DataTools do
     )
     |> Nx.concatenate(axis: 1)
   end
+
+  def normalize_data(batch, target, train_max) do
+    {Nx.divide(batch, train_max), target}
+  end
 end
