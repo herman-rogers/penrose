@@ -38,19 +38,14 @@ defmodule Penrose.Models.SimpleNeuralNetwork do
 
     optimizer = Axon.Optimizers.adam(0.01)
 
-    # model_state =
     model_state = model
     |> Axon.Loop.trainer(loss, optimizer)
     |> Axon.Loop.metric(:precision)
     |> Axon.Loop.metric(:recall)
     |> Axon.Loop.run(training_data, epochs: 30, compiler: EXLA)
 
-    # IO.inspect(mode)
-
     model
-    |> Axon.serialize(%{})
+    |> Axon.serialize(%{ model_state: model_state })
     |> then(&File.write!("simple_model.axon", &1))
-
-    model_state
   end
 end
